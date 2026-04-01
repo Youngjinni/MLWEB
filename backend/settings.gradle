@@ -1,0 +1,5 @@
+rootProject.name = 'backend'
+
+include ':common-module'
+include ':gateway-service'
+include ':auth-service'

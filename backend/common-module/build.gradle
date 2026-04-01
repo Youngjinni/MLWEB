@@ -1,0 +1,46 @@
+plugins {
+    id 'java-library'
+    // 버전 관리를 위해 유지하되, 라이브러리 모듈이므로 apply false는 적절합니다.
+    id 'org.springframework.boot' version '3.4.1' apply false
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ML_APP'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // 1. 스프링 부트 관리 (BOM)
+    api platform("org.springframework.boot:spring-boot-dependencies:3.4.1")
+
+    // 2. 핵심 의존성
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+
+    // 3. 롬복 (버전을 다시 명시해줍니다)
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // 4. 테스트 설정
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// 삭제: description (필요시만 작성)
+// 삭제: tasks.register("prepareKotlinBuildScriptModel"){} (인텔리제이 내부 생성용이므로 수동 작성 불필요)

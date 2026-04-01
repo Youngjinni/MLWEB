@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # 1. 오라클 DB 서비스 (기존 유지)
+  oracle-db:
+    image: gvenzl/oracle-xe:latest
+    container_name: ml_oracle_db
+    ports:
+      - "${ORACLE_DB_PORT}:1521"
+    environment:
+      - APP_USER=${ORACLE_DB_USER}
+      - APP_USER_PASSWORD=${ORACLE_DB_PASSWORD}
+      - ORACLE_PASSWORD=master_password
+    volumes:
+      - ./oracle_data:/opt/oracle/oradata
+    networks:
+      - ml-network
+    restart: always
+
+  # 2. 스프링 부트 애플리케이션 서비스 (추가)
+  common-module:
+    build:
+      context: .
+      dockerfile: common-module/Dockerfile
+    container_name: ml_common_service
+    depends_on:
+      - oracle-db # DB가 먼저 떠야 함
+    env_file:
+      - .env # 루트의 .env 파일을 환경변수로 주입
+    environment:
+      # ⭐ 중요: 도커 내부에서는 localhost가 아닌 서비스명(oracle-db)으로 접속!
+      - DB_URL=jdbc:oracle:thin:@oracle-db:1521/xe
+    ports:
+      - "8081:8080"
+    networks:
+      - ml-network
+    restart: on-failure
+
+networks:
+  ml-network:
+    driver: bridge
