@@ -36,7 +36,7 @@ const Profile = () => {
         <p><strong>가입 일시:</strong> {new Date(userInfo.crtrDt).toLocaleString()}</p>
       </div>
       <button
-        onClick={() => alert('정보 수정 페이지로 이동')}
+        onClick={(modifymyinfo) => alert('정보 수정 페이지로 이동')}
         style={{ marginTop: '20px', width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px' }}
       >
         내 정보 수정하기

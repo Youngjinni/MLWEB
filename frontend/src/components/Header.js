@@ -25,12 +25,13 @@ const Header = () => {
 
   return (
     <nav style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
-      <Link href="/">홈</Link> |
+      <Link to="/">홈</Link> |
 
       {isLoggedIn ? (
         // 로그인 되었을 때 보여줄 메뉴
         <>
           <Link to="/profile" style={{ marginLeft: '10px' }}>마이페이지</Link>
+          <Link to="/posts" style={{ marginLeft: '10px' }}>community</Link>
           <button onClick={handleLogout} style={{ marginLeft: '10px' }}>로그아웃</button>
         </>
       ) : (

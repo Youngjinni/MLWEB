@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // /auth/me를 포함한 모든 auth 관련 요청을 누구나 접근 가능하게 열어둡니다.
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**","/api/community/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

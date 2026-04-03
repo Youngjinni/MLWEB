@@ -33,7 +33,7 @@ public class PostEntity {
 
     @CreatedDate
     @Column(name = "CRTR_DT", updatable = false)
-    private LocalDateTime crtrDt;
+    private LocalDateTime crtrDt = LocalDateTime.now();
 
     @Lob // SQL의 CLOB 반영 (긴 URL이나 인코딩된 이미지 데이터 대응)
     @Column(name = "IMG_URL")
