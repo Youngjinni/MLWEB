@@ -143,7 +143,6 @@
     "Spring Boot.CommonModuleApplication.executor": "Run",
     "Spring Boot.CommunityServiceApplication.executor": "Run",
     "Spring Boot.GatewayServiceApplication.executor": "Run",
-    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/kim young jin/IdeaProjects/ML-WEB/MLWEB",
@@ -410,6 +409,11 @@
         <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
       </set>
     </attachedChunks>
+  </component>
+  <component name="ShelveChangesManager">
+    <option name="groupingKeys">
+      <option value="module" />
+    </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">

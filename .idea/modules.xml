@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/auth-service_main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/auth-service_main.iml" group="backend/auth-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/auth-service_test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/auth-service_test.iml" group="backend/auth-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/backend.iml" filepath="$PROJECT_DIR$/.idea/modules/backend.iml" group="backend" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.iml" group="backend/auth-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.iml" group="backend/common-module" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.iml" filepath="$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.iml" group="backend/community-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.iml" group="backend/gateway-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/backend.gateway-service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/23144919/backend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/23144919/backend.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/23144919/backend.test.iml" filepath="$PROJECT_DIR$/.idea/modules/23144919/backend.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/common-module_main.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/common-module_main.iml" group="backend/common-module" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/common-module_test.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/common-module_test.iml" group="backend/common-module" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/gateway-service_main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/gateway-service_main.iml" group="backend/gateway-service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/gateway-service_test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/gateway-service_test.iml" group="backend/gateway-service" />
+    </modules>
+  </component>
+</project>
