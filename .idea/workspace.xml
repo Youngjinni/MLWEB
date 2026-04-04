@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2d74df3-fb17-4e96-9a8f-5c809d3aef5f" name="변경" comment="commit">
-      <change afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/controller/PostController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/dto/PostDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/service/PostService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Community.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/PostWrite.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/common-module/src/main/java/com/ml_app/commonmodule/entity/PostEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/common-module/src/main/java/com/ml_app/commonmodule/entity/PostEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/gateway-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.js" afterDir="false" />
-    </list>
+    <list default="true" id="a2d74df3-fb17-4e96-9a8f-5c809d3aef5f" name="변경" comment="commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,6 +86,9 @@
   <component name="HttpClientOnboardingState">{
   &quot;isOnboardingCommentShown&quot;: true
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -143,6 +130,7 @@
     "Spring Boot.CommonModuleApplication.executor": "Run",
     "Spring Boot.CommunityServiceApplication.executor": "Run",
     "Spring Boot.GatewayServiceApplication.executor": "Run",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/kim young jin/IdeaProjects/ML-WEB/MLWEB",
@@ -496,7 +484,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775029961630</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="commit">
+      <option name="closed" value="true" />
+      <created>1775283225395</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1775283225395</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
