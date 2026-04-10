@@ -18,9 +18,10 @@ public class JwtUtil {
     private final SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
     // 매개변수를 Long userId로 수정 (DB의 PK값)
-    public String createToken(Long userId) {
+    public String createToken(Long userId, String role) {
         return Jwts.builder()
-                .subject(String.valueOf(userId)) // ID를 문자열로 변환해 Subject에 담음
+                .subject(String.valueOf(userId))
+                .claim("auth", role) // 👈 "auth"라는 이름으로 권한(예: ROLE_USER)을 넣어줍니다.
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key)

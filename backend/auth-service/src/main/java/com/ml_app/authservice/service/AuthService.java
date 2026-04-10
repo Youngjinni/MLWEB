@@ -53,9 +53,9 @@ public class AuthService {
         if (!passwordEncoder.matches(pw, user.getPw())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
-
+        String role = "ROLE_USER";
         // 토큰 생성 및 반환
-        return jwtUtil.createToken(user.getUserId());
+        return jwtUtil.createToken(user.getUserId(), role);
     }
 
     @Transactional(readOnly = true)

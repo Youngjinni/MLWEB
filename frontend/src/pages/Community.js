@@ -64,11 +64,28 @@ const Community = () => {
             <div className="post-list">
                 {posts.length > 0 ? (
                     posts.map(post => (
-                        <div key={post.postId} className="post-card" style={{ borderBottom: '1px solid #ddd', padding: '15px 0' }}>
-                            <h3 style={{ margin: '0 0 10px 0' }}>{post.postNm}</h3>
+                        <div
+                            key={post.postId}
+                            className="post-card"
+                            // 1. 카드 클릭 시 상세 페이지로 이동하도록 설정
+                            onClick={() => navigate(`/posts/${post.postId}`)}
+                            style={{
+                                borderBottom: '1px solid #ddd',
+                                padding: '15px 0',
+                                cursor: 'pointer', // 마우스를 올리면 손가락 모양으로 변경
+                                transition: 'background-color 0.2s'
+                            }}
+                            // 마우스 올렸을 때 효과 (선택사항)
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9f9f9'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                        >
+                            {/* 2. 제목 클릭 시에도 이동 (이미 카드 전체에 걸려있으므로 스타일만 조정) */}
+                            <h3 style={{ margin: '0 0 10px 0', color: '#007bff' }}>{post.postNm}</h3>
+
                             <p style={{ color: '#666' }}>
                                 {post.cont ? post.cont.substring(0, 100) : "내용이 없습니다."}...
                             </p>
+
                             <div className="post-info" style={{ fontSize: '0.85rem', color: '#999', marginTop: '10px' }}>
                                 <span>👍 {post.likeCnt}</span> |
                                 <span> 👀 {post.viewCnt}</span> |

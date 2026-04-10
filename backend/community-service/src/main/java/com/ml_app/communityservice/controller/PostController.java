@@ -18,24 +18,48 @@ import java.util.List;
 public class PostController {
     private final PostRepository postRepository;
     private final PostService postService;
+
+    // 1. 목록 조회
     @GetMapping("/posts")
     public List<PostEntity> getPost(){
         return postRepository.findAllByOrderByCrtrDtDesc(Pageable.ofSize(20)).getContent();
     }
-    @GetMapping("/Posts/{id}")
-    public ResponseEntity<PostEntity> getPostById(@PathVariable Long id){
+
+    // 2. 상세 조회
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<PostEntity> getPostById(@PathVariable("id") Long id){
         return postRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    @PostMapping("/Posts")
-    public PostEntity createPost(@RequestBody PostEntity post) {
-    // 실제 운영 시에는 SecurityContextHolder에서 현재 로그인한 유저 ID를 가져와 세팅해야 합니다.
-        return postRepository.save(post);
+
+    // 3. 좋아요 클릭 (추가) ✅
+    @PostMapping("/posts/{id}/like")
+    public ResponseEntity<Long> likePost(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(postService.increasePostLike(id));
     }
-    @PostMapping
+
+    // 4. 댓글 목록 조회 (추가) ✅
+    @GetMapping("/posts/{id}/comments")
+    public ResponseEntity<List<com.ml_app.commonmodule.entity.CommentEntity>> getComments(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(postService.getComments(id));
+    }
+
+    // 5. 댓글 등록 (추가) ✅
+    @PostMapping("/posts/{id}/comments")
+    public ResponseEntity<com.ml_app.commonmodule.entity.CommentEntity> addComment(
+            @PathVariable("id") Long id,
+            @RequestBody java.util.Map<String, String> request) {
+
+        // 실제 운영 시에는 토큰에서 userId를 추출해야 함
+        Long mockUserId = 1L;
+        String content = request.get("cont");
+        return ResponseEntity.ok(postService.addComment(id, mockUserId, content));
+    }
+
+    // 6. 게시글 저장 (PostDto 버전으로 통일 권장)
+    @PostMapping("/posts/save") // 경로가 중복되지 않게 살짝 수정했습니다.
     public ResponseEntity<PostEntity> savePost(@RequestBody PostDto postDto) {
-        // 임시로 userId를 1L로 설정 (추후 시큐리티 토큰에서 추출)
         Long mockUserId = 1L;
         PostEntity savedPost = postService.createPost(postDto, mockUserId);
         return ResponseEntity.ok(savedPost);
