@@ -83,7 +83,7 @@ const LstmAnalysis = () => {
             setResult("LSTM 분석 및 학습이 완료되었습니다.");
 
             // 3. 백엔드 DB 저장
-            await axios.post('http://localhost:8082/api/analysis/lstm', {
+            await axios.post('http://localhost:8083/api/analysis/lstm', {
                 ...params,
                 inputDataNm: "User_Upload_File",
                 resultJson: JSON.stringify({ status: "success", dataCount: fileData.length })

@@ -1,0 +1,4 @@
+rootProject.name = 'MLWEB'
+
+include ':backend'
+include ':frontend'

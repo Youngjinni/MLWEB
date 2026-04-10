@@ -72,7 +72,7 @@ json.dumps({"accuracy": acc})
             setAccuracy(parsedRes.accuracy);
 
             // DB 저장
-            await axios.post('http://localhost:8082/api/analysis/rf', {
+            await axios.post('http://localhost:8084/api/analysis/rf', {
                 ...params,
                 inputDataNm: "User_Upload_File",
                 accuracy: parsedRes.accuracy,

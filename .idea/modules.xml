@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1260543757/backend.lstm-analysis.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1260543757/backend.lstm-analysis.main.iml" />
     </modules>
   </component>
 </project>

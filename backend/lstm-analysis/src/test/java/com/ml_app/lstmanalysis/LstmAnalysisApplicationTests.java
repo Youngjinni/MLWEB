@@ -1,4 +1,4 @@
-package ml_app.lstmanalysis;
+package com.ml_app.lstmanalysis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

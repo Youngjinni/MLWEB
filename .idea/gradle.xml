@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/auth-service" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/frontend" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/lstm-analysis" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/backend" />
@@ -11,11 +22,9 @@
             <option value="$PROJECT_DIR$/backend/common-module" />
             <option value="$PROJECT_DIR$/backend/community-service" />
             <option value="$PROJECT_DIR$/backend/gateway-service" />
+            <option value="$PROJECT_DIR$/backend/lstm-analysis" />
           </set>
         </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/lstm-analysis" />
       </GradleProjectSettings>
     </option>
   </component>
