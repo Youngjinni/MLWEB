@@ -30,12 +30,18 @@
       <module name="backend.lstm-analysis.main" options="-parameters" />
       <module name="backend.lstm-analysis.test" options="-parameters" />
       <module name="backend.main" options="-parameters" />
+      <module name="backend.rf-analysis" options="-parameters" />
+      <module name="backend.rf-analysis.main" options="-parameters" />
+      <module name="backend.rf-analysis.test" options="-parameters" />
       <module name="backend.test" options="-parameters" />
       <module name="gateway-service_main" options="-parameters" />
       <module name="gateway-service_test" options="-parameters" />
       <module name="lstm-analysis" options="-parameters" />
       <module name="lstm-analysis.main" options="-parameters" />
       <module name="lstm-analysis.test" options="-parameters" />
+      <module name="rf-analysis" options="-parameters" />
+      <module name="rf-analysis.main" options="-parameters" />
+      <module name="rf-analysis.test" options="-parameters" />
     </option>
   </component>
 </project>

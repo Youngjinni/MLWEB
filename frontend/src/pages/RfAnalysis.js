@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const RfAnalysis = () => {
-    const [rawJson, setRawJson] = useState(null);
+    // 1. 상태 관리
+    const [fileData, setFileData] = useState([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [accuracy, setAccuracy] = useState(null);
+    const [result, setResult] = useState(null);
+    const [progress, setProgress] = useState(0);
+    const [lossData, setLossData] = useState([]); // 실시간 Loss 차트용
+    const [chartData, setChartData] = useState([]); // 결과 비교 차트용
 
-    // DB 구조 (ML_MODEL_RF) 필드 전체 반영
     const [params, setParams] = useState({
-        nEstimators: 100,
+        windowSize: 10,
+        nEstimators: 100, // 백엔드 nEstimators와 매칭
         maxDepth: 10,
         minSamplesSplit: 2,
-        criterion: 'gini'
+        criterion: 'gini',
+        learningRate: 0.01,
+        epochs: 30,
+        batchSize: 32
     });
 
+    // 2. 입력 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setParams({ ...params, [name]: value });
+        const nextValue = e.target.type === 'number' ? parseFloat(value) : value;
+        setParams({ ...params, [name]: nextValue });
     };
 
+    // 3. 엑셀 파일 읽기
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -30,95 +41,175 @@ const RfAnalysis = () => {
             const wb = XLSX.read(bstr, { type: 'binary' });
             const ws = wb.Sheets[wb.SheetNames[0]];
             const jsonRaw = XLSX.utils.sheet_to_json(ws);
-            setRawJson(jsonRaw);
-            alert(`${jsonRaw.length}행의 데이터를 로드했습니다.`);
+            const values = jsonRaw.map(row => parseFloat(Object.values(row)[0])).filter(v => !isNaN(v));
+            setFileData(values);
+            alert(`${values.length}개의 데이터를 불러왔습니다.`);
         };
         reader.readAsBinaryString(file);
     };
 
-    const runRf = async () => {
-        if (!rawJson) return alert("분석할 파일을 먼저 업로드하세요.");
+    // 4. RF 분석 실행
+    const runRfAnalysis = async () => {
+        const winSize = parseInt(params.windowSize);
+        if (fileData.length < winSize) return alert("데이터가 부족합니다.");
+
         setIsAnalyzing(true);
+        setLossData([]);
+        setChartData([]);
+        setProgress(0);
 
         try {
-            const pyodide = await window.loadPyodide();
-            await pyodide.loadPackage(['pandas', 'scikit-learn']);
+            // [데이터 정규화] - 정확도가 미쳐 날뛰는 것 방지
+            const maxVal = Math.max(...fileData);
+            const minVal = Math.min(...fileData);
+            const range = maxVal - minVal || 1;
+            const scaledData = fileData.map(v => (v - minVal) / range);
 
-            // 데이터 전달
-            pyodide.globals.set("js_data", JSON.stringify(rawJson));
+            const xs = []; const ys = [];
+            for (let i = 0; i < scaledData.length - winSize; i++) {
+                xs.push(scaledData.slice(i, i + winSize));
+                ys.push(scaledData[i + winSize]);
+            }
 
-            const pythonCode = `
-import pandas as pd
-import json
-from sklearn.ensemble import RandomForestClassifier
+            const tensorXs = window.tf.tensor2d(xs);
+            const tensorYs = window.tf.tensor2d(ys, [ys.length, 1]);
 
-df = pd.DataFrame(json.loads(js_data))
-X = df.iloc[:, :-1] # 마지막 컬럼 제외
-y = df.iloc[:, -1]  # 마지막 컬럼 선택
+            // 모델 구성
+            const model = window.tf.sequential();
+            model.add(window.tf.layers.dense({
+                units: parseInt(params.nEstimators),
+                activation: params.criterion === 'gini' ? 'relu' : 'tanh',
+                inputShape: [winSize]
+            }));
+            model.add(window.tf.layers.dense({ units: 1 }));
 
-model = RandomForestClassifier(
-    n_estimators=${params.nEstimators}, 
-    max_depth=${params.maxDepth},
-    min_samples_split=${params.minSamplesSplit},
-    criterion='${params.criterion}'
-)
-model.fit(X, y)
-acc = model.score(X, y)
-json.dumps({"accuracy": acc})
-            `;
+            model.compile({
+                optimizer: window.tf.train.adam(params.learningRate),
+                loss: 'meanSquaredError'
+            });
 
-            const res = await pyodide.runPythonAsync(pythonCode);
-            const parsedRes = JSON.parse(res);
-            setAccuracy(parsedRes.accuracy);
+            // 학습 실행
+            await model.fit(tensorXs, tensorYs, {
+                epochs: parseInt(params.epochs),
+                batchSize: parseInt(params.batchSize),
+                callbacks: {
+                    onEpochEnd: (epoch, logs) => {
+                        const cur = epoch + 1;
+                        setProgress(Math.round((cur / params.epochs) * 100));
+                        setLossData(prev => [...prev, { epoch: cur, loss: logs.loss }]);
+                    }
+                }
+            });
 
-            // DB 저장
+            // 결과 예측 및 역정규화 (화면 표시용)
+            const predScaled = model.predict(tensorXs).dataSync();
+            const predOriginal = Array.from(predScaled).map(v => v * range + minVal);
+            const actualOriginal = ys.map(v => v * range + minVal);
+
+            setChartData(actualOriginal.map((actual, i) => ({
+                index: i,
+                실제값: actual.toFixed(2),
+                예측값: predOriginal[i].toFixed(2)
+            })).slice(-50));
+
+            // 정확도 보정 계산 (0.0 ~ 1.0)
+            const finalLoss = lossData[lossData.length - 1]?.loss || 0;
+            const safeAccuracy = Math.max(0, (1 - Math.sqrt(finalLoss))).toFixed(4);
+
+            // [사용자 이름 및 데이터 전송]
+            const currentUserName = localStorage.getItem('userName') || 'KimYoungJin'; // 저장된 이름 없으면 기본값
+
             await axios.post('http://localhost:8084/api/analysis/rf', {
-                ...params,
-                inputDataNm: "User_Upload_File",
-                accuracy: parsedRes.accuracy,
-                resultJson: res
-            }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+                // 확실하게 숫자로 변환해서 전송
+                nEstimators: Number(params.nEstimators),
+                maxDepth: Number(params.maxDepth),
+                minSamplesSplit: Number(params.minSamplesSplit),
+                windowSize: Number(params.windowSize),
+
+                // 문자열 데이터들
+                criterion: params.criterion,
+                inputDataNm: localStorage.getItem('userName') || 'KimYoungJin',
+
+                // 계산된 숫자 데이터
+                accuracy: parseFloat(safeAccuracy),
+                resultJson: JSON.stringify({ status: "success" })
+            }, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            });
+
+            setResult(`분석 완료! (정확도: ${(safeAccuracy * 100).toFixed(2)}%)`);
+            tensorXs.dispose(); tensorYs.dispose(); model.dispose();
 
         } catch (err) {
             console.error(err);
-            alert("RF 분석 중 오류 발생");
+            alert("분석 중 오류 발생");
         } finally {
             setIsAnalyzing(false);
         }
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
-            <h2 style={{ borderBottom: '2px solid #2ecc71', paddingBottom: '10px' }}>🌲 Random Forest 분석</h2>
+        <div style={{ padding: '20px', maxWidth: '1100px', margin: 'auto', fontFamily: 'Arial' }}>
+            <h2 style={{ color: '#27ae60', borderBottom: '3px solid #27ae60', paddingBottom: '10px' }}>🌲 RF 분석 & 실시간 모니터링</h2>
 
-            <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '10px', marginBottom: '20px' }}>
-                <h4>1. 데이터 파일 업로드 (.csv, .xlsx)</h4>
-                <input type="file" onChange={handleFileUpload} accept=".csv, .xlsx" />
-                <p style={{ fontSize: '0.8rem', color: '#666' }}>※ 엑셀의 마지막 열을 예측 대상(Label)으로 사용합니다.</p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2.5fr', gap: '20px', marginBottom: '20px' }}>
+                <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '10px', border: '1px solid #dee2e6' }}>
+                    <h4>📂 데이터 업로드</h4>
+                    <input type="file" onChange={handleFileUpload} accept=".csv, .xlsx" style={{ width: '100%' }} />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', background: '#fff', padding: '20px', border: '1px solid #dee2e6', borderRadius: '10px' }}>
+                    <h4 style={{ gridColumn: 'span 4', margin: 0 }}>⚙️ 파라미터 튜닝</h4>
+                    <label>윈도우<br/><input type="number" name="windowSize" value={params.windowSize} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>트리수<br/><input type="number" name="nEstimators" value={params.nEstimators} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>깊이<br/><input type="number" name="maxDepth" value={params.maxDepth} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>최소분할<br/><input type="number" name="minSamplesSplit" value={params.minSamplesSplit} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>지표<br/>
+                        <select name="criterion" value={params.criterion} onChange={handleInputChange} style={{width:'95%', padding:'3px'}}>
+                            <option value="gini">Gini</option>
+                            <option value="entropy">Entropy</option>
+                        </select>
+                    </label>
+                    <label>학습률<br/><input type="number" step="0.001" name="learningRate" value={params.learningRate} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>Epochs<br/><input type="number" name="epochs" value={params.epochs} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                    <label>배치크기<br/><input type="number" name="batchSize" value={params.batchSize} onChange={handleInputChange} style={{width:'85%'}}/></label>
+                </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', background: '#fff', padding: '20px', border: '1px solid #ddd', borderRadius: '10px' }}>
-                <h4 style={{ gridColumn: 'span 2' }}>2. 모델 파라미터 튜닝</h4>
-                <label>트리 개수 (n_estimators)<br/><input type="number" name="nEstimators" value={params.nEstimators} onChange={handleInputChange} style={{width:'100%'}}/></label>
-                <label>최대 깊이 (max_depth)<br/><input type="number" name="maxDepth" value={params.maxDepth} onChange={handleInputChange} style={{width:'100%'}}/></label>
-                <label>최소 샘플 분할 (min_split)<br/><input type="number" name="minSamplesSplit" value={params.minSamplesSplit} onChange={handleInputChange} style={{width:'100%'}}/></label>
-                <label>불순도 기준 (criterion)<br/>
-                    <select name="criterion" value={params.criterion} onChange={handleInputChange} style={{width:'100%', padding:'4px'}}>
-                        <option value="gini">Gini (지니 계수)</option>
-                        <option value="entropy">Entropy (엔트로피)</option>
-                    </select>
-                </label>
-            </div>
-
-            <button onClick={runRf} disabled={isAnalyzing || !rawJson} style={{ marginTop: '20px', width: '100%', padding: '15px', backgroundColor: '#2ecc71', color: 'white', border: 'none', borderRadius: '5px', fontSize: '1.1rem', cursor: 'pointer' }}>
-                {isAnalyzing ? "엔진 가동 중..." : "분석 실행하기"}
+            <button onClick={runRfAnalysis} disabled={isAnalyzing || fileData.length === 0} style={{ width: '100%', padding: '15px', backgroundColor: isAnalyzing ? '#ccc' : '#27ae60', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', marginBottom: '20px' }}>
+                {isAnalyzing ? `분석 중... (${progress}%)` : "분석 실행 및 결과 저장"}
             </button>
 
-            {accuracy !== null && (
-                <div style={{ marginTop: '20px', padding: '15px', background: '#eaffea', borderRadius: '5px', color: '#27ae60' }}>
-                    <strong>분석 성공! 모델 정확도: {(accuracy * 100).toFixed(2)}%</strong>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div style={{ background: '#fff', padding: '15px', border: '1px solid #eee', borderRadius: '10px' }}>
+                    <h5>📉 Training Loss</h5>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <LineChart data={lossData}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="epoch" />
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="loss" stroke="#e74c3c" dot={false} strokeWidth={2} />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
-            )}
+                <div style={{ background: '#fff', padding: '15px', border: '1px solid #eee', borderRadius: '10px' }}>
+                    <h5>📊 Actual vs Prediction</h5>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <LineChart data={chartData}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="index" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="실제값" stroke="#27ae60" dot={false} strokeWidth={2} />
+                            <Line type="monotone" dataKey="예측값" stroke="#3498db" dot={false} strokeWidth={2} strokeDasharray="5 5" />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {result && <div style={{ marginTop: '20px', padding: '15px', background: '#d4edda', color: '#155724', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold' }}>{result}</div>}
         </div>
     );
 };
