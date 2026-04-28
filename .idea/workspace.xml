@@ -6,14 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a2d74df3-fb17-4e96-9a8f-5c809d3aef5f" name="변경" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/common-module/src/main/java/com/ml_app/commonmodule/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/common-module/src/main/java/com/ml_app/commonmodule/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/gateway-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/GatewayServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/GatewayServiceApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/rf-analysis/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/rf-analysis/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/rf-analysis/src/main/java/com/ml_app/rfanalysis/controller/RfAnalysisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/rf-analysis/src/main/java/com/ml_app/rfanalysis/controller/RfAnalysisController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/rf-analysis/src/main/java/com/ml_app/rfanalysis/service/RfAnalysisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/rf-analysis/src/main/java/com/ml_app/rfanalysis/service/RfAnalysisService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/RfAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/RfAnalysis.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,66 +129,67 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Docker.backend.oracle-db: Compose 배포.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Gradle.Gradle 종속성 로드.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.UserRepositoryTest.userEntityDatabaseTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.UserRepositoryTest.userEntityLongTypeTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.UserRepositoryTest.userEntityTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.auth-service [test].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.backend 빌드.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.community-service 빌드.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lstm-analysis 빌드.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean].executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserRepositoryTest.UserSave_test.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AuthServiceApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CommonModuleApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CommunityServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.LstmAnalysisApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.RfAnalysisApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/IdeaProjects/MLWEB&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Docker.backend.oracle-db: Compose 배포.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.Gradle 종속성 로드.executor": "Run",
+    "Gradle.UserRepositoryTest.executor": "Run",
+    "Gradle.UserRepositoryTest.userEntityDatabaseTest.executor": "Run",
+    "Gradle.UserRepositoryTest.userEntityLongTypeTest.executor": "Run",
+    "Gradle.UserRepositoryTest.userEntityTest.executor": "Run",
+    "Gradle.auth-service [test].executor": "Run",
+    "Gradle.backend 빌드.executor": "Run",
+    "Gradle.community-service 빌드.executor": "Run",
+    "Gradle.lstm-analysis 빌드.executor": "Run",
+    "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean].executor": "Run",
+    "JUnit.UserRepositoryTest.UserSave_test.executor": "Run",
+    "JUnit.UserRepositoryTest.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.AuthServiceApplication (1).executor": "Run",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.CommonModuleApplication.executor": "Run",
+    "Spring Boot.CommunityServiceApplication.executor": "Run",
+    "Spring Boot.GatewayServiceApplication (2).executor": "Run",
+    "Spring Boot.GatewayServiceApplication.executor": "Run",
+    "Spring Boot.LstmAnalysisApplication.executor": "Run",
+    "Spring Boot.RfAnalysisApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/PC/IdeaProjects/MLWEB",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;oracle&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\PC\IdeaProjects\MLWEB" />
@@ -203,34 +201,7 @@
       <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB\backend\common-module" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.RfAnalysisApplication">
-    <configuration name="UserRepositoryTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":common-module:test" />
-            <option value="--tests" />
-            <option value="&quot;com.ml_app.commonmodule.repository.UserRepositoryTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.GatewayServiceApplication">
     <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -439,7 +410,6 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" />
-      <item itemvalue="Gradle.UserRepositoryTest" />
       <item itemvalue="JavaScript 디버그.Debug Application" />
       <item itemvalue="Spring Boot.RfAnalysisApplication" />
       <item itemvalue="Spring Boot.LstmAnalysisApplication (1)" />
@@ -459,7 +429,6 @@
         <item itemvalue="Spring Boot.AuthServiceApplication" />
         <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" />
         <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-        <item itemvalue="Gradle.UserRepositoryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -501,7 +470,7 @@
       <workItem from="1776679476358" duration="325000" />
       <workItem from="1776679813510" duration="664000" />
       <workItem from="1776743957867" duration="7702000" />
-      <workItem from="1776919549543" duration="6659000" />
+      <workItem from="1776919549543" duration="8959000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -599,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776744442001</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="commit">
+      <option name="closed" value="true" />
+      <created>1777337858281</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1777337858281</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

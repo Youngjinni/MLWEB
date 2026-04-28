@@ -18,9 +18,11 @@ repositories {
     mavenCentral()
 }
 
+
+
 dependencies {
     // 💡 핵심: Spring Cloud Gateway 의존성
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway:4.2.0'
 
     // 유틸리티나 공통 예외 처리가 필요하다면 포함
     implementation project(':common-module')

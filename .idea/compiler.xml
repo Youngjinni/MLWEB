@@ -10,6 +10,7 @@
         </processorPath>
         <module name="backend.auth-service.main" />
         <module name="backend.rf-analysis.main" />
+        <module name="backend.gateway-service.main" />
         <module name="backend.community-service.test" />
         <module name="backend.lstm-analysis.main" />
         <module name="backend.community-service.main" />
