@@ -19,10 +19,16 @@ repositories {
 }
 
 dependencies {
+    // 💡 핵심: Spring Cloud Gateway 의존성
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+    // 유틸리티나 공통 예외 처리가 필요하다면 포함
     implementation project(':common-module')
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // 서비스 디스커버리(Eureka 등)를 쓰지 않는다면 아래 정도로 충분합니다.
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

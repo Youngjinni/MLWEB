@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const RfAnalysis = () => {
-    // 1. 상태 관리
     const [fileData, setFileData] = useState([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState(null);
     const [progress, setProgress] = useState(0);
-    const [lossData, setLossData] = useState([]); // 실시간 Loss 차트용
-    const [chartData, setChartData] = useState([]); // 결과 비교 차트용
+    const [lossData, setLossData] = useState([]);
+    const [chartData, setChartData] = useState([]);
 
     const [params, setParams] = useState({
         windowSize: 10,
-        nEstimators: 100, // 백엔드 nEstimators와 매칭
+        nEstimators: 100,
         maxDepth: 10,
         minSamplesSplit: 2,
         criterion: 'gini',
@@ -23,18 +21,15 @@ const RfAnalysis = () => {
         batchSize: 32
     });
 
-    // 2. 입력 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         const nextValue = e.target.type === 'number' ? parseFloat(value) : value;
         setParams({ ...params, [name]: nextValue });
     };
 
-    // 3. 엑셀 파일 읽기
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = (evt) => {
             const bstr = evt.target.result;
@@ -48,7 +43,6 @@ const RfAnalysis = () => {
         reader.readAsBinaryString(file);
     };
 
-    // 4. RF 분석 실행
     const runRfAnalysis = async () => {
         const winSize = parseInt(params.windowSize);
         if (fileData.length < winSize) return alert("데이터가 부족합니다.");
@@ -59,7 +53,6 @@ const RfAnalysis = () => {
         setProgress(0);
 
         try {
-            // [데이터 정규화] - 정확도가 미쳐 날뛰는 것 방지
             const maxVal = Math.max(...fileData);
             const minVal = Math.min(...fileData);
             const range = maxVal - minVal || 1;
@@ -74,7 +67,6 @@ const RfAnalysis = () => {
             const tensorXs = window.tf.tensor2d(xs);
             const tensorYs = window.tf.tensor2d(ys, [ys.length, 1]);
 
-            // 모델 구성
             const model = window.tf.sequential();
             model.add(window.tf.layers.dense({
                 units: parseInt(params.nEstimators),
@@ -82,13 +74,8 @@ const RfAnalysis = () => {
                 inputShape: [winSize]
             }));
             model.add(window.tf.layers.dense({ units: 1 }));
+            model.compile({ optimizer: window.tf.train.adam(params.learningRate), loss: 'meanSquaredError' });
 
-            model.compile({
-                optimizer: window.tf.train.adam(params.learningRate),
-                loss: 'meanSquaredError'
-            });
-
-            // 학습 실행
             await model.fit(tensorXs, tensorYs, {
                 epochs: parseInt(params.epochs),
                 batchSize: parseInt(params.batchSize),
@@ -101,7 +88,6 @@ const RfAnalysis = () => {
                 }
             });
 
-            // 결과 예측 및 역정규화 (화면 표시용)
             const predScaled = model.predict(tensorXs).dataSync();
             const predOriginal = Array.from(predScaled).map(v => v * range + minVal);
             const actualOriginal = ys.map(v => v * range + minVal);
@@ -112,32 +98,10 @@ const RfAnalysis = () => {
                 예측값: predOriginal[i].toFixed(2)
             })).slice(-50));
 
-            // 정확도 보정 계산 (0.0 ~ 1.0)
             const finalLoss = lossData[lossData.length - 1]?.loss || 0;
-            const safeAccuracy = Math.max(0, (1 - Math.sqrt(finalLoss))).toFixed(4);
+            const safeAccuracy = (Math.max(0, (1 - Math.sqrt(finalLoss))) * 100).toFixed(2);
 
-            // [사용자 이름 및 데이터 전송]
-            const currentUserName = localStorage.getItem('userName') || 'KimYoungJin'; // 저장된 이름 없으면 기본값
-
-            await axios.post('http://localhost:8084/api/analysis/rf', {
-                // 확실하게 숫자로 변환해서 전송
-                nEstimators: Number(params.nEstimators),
-                maxDepth: Number(params.maxDepth),
-                minSamplesSplit: Number(params.minSamplesSplit),
-                windowSize: Number(params.windowSize),
-
-                // 문자열 데이터들
-                criterion: params.criterion,
-                inputDataNm: localStorage.getItem('userName') || 'KimYoungJin',
-
-                // 계산된 숫자 데이터
-                accuracy: parseFloat(safeAccuracy),
-                resultJson: JSON.stringify({ status: "success" })
-            }, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
-
-            setResult(`분석 완료! (정확도: ${(safeAccuracy * 100).toFixed(2)}%)`);
+            setResult(`분석 완료! (추정 정확도: ${safeAccuracy}%)`);
             tensorXs.dispose(); tensorYs.dispose(); model.dispose();
 
         } catch (err) {
@@ -177,7 +141,7 @@ const RfAnalysis = () => {
             </div>
 
             <button onClick={runRfAnalysis} disabled={isAnalyzing || fileData.length === 0} style={{ width: '100%', padding: '15px', backgroundColor: isAnalyzing ? '#ccc' : '#27ae60', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', marginBottom: '20px' }}>
-                {isAnalyzing ? `분석 중... (${progress}%)` : "분석 실행 및 결과 저장"}
+                {isAnalyzing ? `분석 중... (${progress}%)` : "분석 실행"}
             </button>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
