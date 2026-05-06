@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ml_app'
+version = '0.0.1-SNAPSHOT'
+description = 'gateway-service'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+jar {
+    enabled = false // 일반 jar는 끄고
+}
+bootJar {
+    enabled = true
+    mainClass = 'com.ml_app.gatewayservice.GatewayServiceApplication'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+dependencies {
+    // 💡 핵심: Spring Cloud Gateway 의존성
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway:4.2.0'
+
+    // 유틸리티나 공통 예외 처리가 필요하다면 포함
+    implementation project(':backend:commonmodule')
+
+    // 서비스 디스커버리(Eureka 등)를 쓰지 않는다면 아래 정도로 충분합니다.
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+tasks.register("prepareKotlinBuildScriptModel"){}

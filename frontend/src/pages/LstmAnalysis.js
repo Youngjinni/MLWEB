@@ -108,7 +108,7 @@ const LstmAnalysis = () => {
             setResult("LSTM 분석 및 학습 완료!");
 
             // 백엔드 전송
-            await axios.post('http://localhost:8083/api/analysis/lstm', {
+            await axios.post('http://localhost:8080/api/analysis/lstm', {
                 ...params,
                 inputDataNm: "User_LSTM_Analysis",
                 resultJson: JSON.stringify({

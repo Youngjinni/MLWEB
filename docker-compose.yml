@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  # 1. 오라클 데이터베이스
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    ports:
+      - "1522:1521"
+    env_file: .env
+    environment:
+      - ORACLE_PASSWORD=${DB_PASSWORD}
+      - APP_USER=${DB_USERNAME}
+      - APP_USER_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./oracle-data:/opt/oracle/oradata
+    networks:
+      - mlweb-net
+
+  # 2. 프론트엔드
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mlwebfrontend
+    ports:
+      - "80:80"
+    depends_on:
+      - gatewayservice
+    networks:
+      - mlweb-net
+
+  # 3. API 게이트웨이
+  gatewayservice:
+    build:
+      context: ./backend/gatewayservice # 하이픈 제거 확인
+    container_name: gatewayservice
+    ports:
+      - "8080:8080"
+    environment:
+      - GATEWAY_PORT=8080
+      - SPRING_PROFILES_ACTIVE=docker
+      - AUTH_SERVICE_URL=http://authservice:8081 # 서비스명 변경 반영
+      - COMMUNITY_SERVICE_URL=http://communityservice:8082
+    depends_on:
+      - oracle-db
+    networks:
+      - mlweb-net
+
+  # 4. 마이크로서비스들
+  authservice: # 하이픈 제거
+    build:
+      context: ./backend/authservice # 실제 폴더명과 일치해야 함
+    container_name: authservice
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - AUTH_SERVICE_PORT=8081 # 아까 에러났던 변수 추가
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - oracle-db
+    networks:
+      - mlweb-net
+
+  communityservice: # 하이픈 제거
+    build:
+      context: ./backend/communityservice
+    container_name: communityservice
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - COMMUNITY_SERVICE_PORT=8082
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - oracle-db
+    networks:
+      - mlweb-net
+
+  lstmanalysis: # 하이픈 제거
+    build:
+      context: ./backend/lstmanalysis
+    container_name: lstmanalysis
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LSTM_SERVICE_PORT=8083
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
+    networks:
+      - mlweb-net
+
+  rfanalysis: # 하이픈 제거
+    build:
+      context: ./backend/rfanalysis
+    container_name: rfanalysis
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - RF_SERVICE_PORT=8084
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
+    networks:
+      - mlweb-net
+
+networks:
+  mlweb-net:
+    driver: bridge

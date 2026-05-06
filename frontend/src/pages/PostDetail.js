@@ -40,7 +40,7 @@ const PostDetail = () => {
     // --- ⭐ 2. 좋아요 클릭 함수 ---
     const handleLike = async () => {
         try {
-            const res = await axios.post(`http://localhost:8082/api/community/posts/${id}/like`, {}, { headers });
+            const res = await axios.post(`http://localhost:8080/api/community/posts/${id}/like`, {}, { headers });
             setPost({ ...post, likeCnt: res.data }); // 서버가 보낸 최신 좋아요 수로 업데이트
         } catch (err) {
             alert("좋아요 처리에 실패했습니다.");
@@ -53,7 +53,7 @@ const PostDetail = () => {
         if (!commentInput.trim()) return;
 
         try {
-            const res = await axios.post(`http://localhost:8082/api/community/posts/${id}/comments`,
+            const res = await axios.post(`http://localhost:8080/api/community/posts/${id}/comments`,
                 { cont: commentInput },
                 { headers }
             );

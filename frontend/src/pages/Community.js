@@ -19,7 +19,7 @@ const Community = () => {
 
         const fetchPosts = async () => {
             try {
-                const response = await axios.get('http://localhost:8082/api/community/posts', {
+                const response = await axios.get('http://localhost:8080/api/community/posts', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8081',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
 });
 
 // 1. 매개변수에 nm과 email을 추가해야 합니다.
