@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     var config = new org.springframework.web.cors.CorsConfiguration();
-                    config.setAllowedOrigins(java.util.List.of("http://localhost:3000"));
+                    config.setAllowedOrigins(java.util.List.of("http://localhost:3000","http://localhost:8080"));
                     config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 1. OPTIONS 추가
                     config.setAllowedHeaders(java.util.List.of("*"));
                     config.setAllowCredentials(true); // 2. 자격 증명 허용 추가

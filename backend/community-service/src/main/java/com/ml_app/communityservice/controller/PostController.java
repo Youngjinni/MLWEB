@@ -57,8 +57,8 @@ public class PostController {
         return ResponseEntity.ok(postService.addComment(id, mockUserId, content));
     }
 
-    // 6. 게시글 저장 (PostDto 버전으로 통일 권장)
-    @PostMapping("/posts/save") // 경로가 중복되지 않게 살짝 수정했습니다.
+    // 6. 게시글 저장 (경로를 /posts로 수정)
+    @PostMapping("/posts") // 기존 "/posts/save"에서 "/save" 삭제
     public ResponseEntity<PostEntity> savePost(@RequestBody PostDto postDto) {
         Long mockUserId = 1L;
         PostEntity savedPost = postService.createPost(postDto, mockUserId);

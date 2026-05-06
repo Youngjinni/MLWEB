@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2d74df3-fb17-4e96-9a8f-5c809d3aef5f" name="변경" comment="commit">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/auth-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/community-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/gateway-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/cors/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/lstm-analysis/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/rf-analysis/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/gateway-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/GatewayServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/GatewayServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common-module/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/common-module/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/PostWrite.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/PostWrite.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,8 +95,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -172,7 +180,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/PC/IdeaProjects/MLWEB",
+    "last_opened_file_path": "C:/Users/PC/IdeaProjects/MLWEB/backend/rf-analysis",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
@@ -192,11 +200,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\PC\IdeaProjects\MLWEB" />
-      <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB" />
-      <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB\backend\common-module" />
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\rf-analysis" />
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\lstm-analysis" />
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\gateway-service" />
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\community-service" />
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\common-module" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PC\IdeaProjects\MLWEB\backend\auth-service" />
       <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB\backend" />
       <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB\backend\common-module" />
     </key>
@@ -410,18 +421,17 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" />
-      <item itemvalue="JavaScript 디버그.Debug Application" />
-      <item itemvalue="Spring Boot.RfAnalysisApplication" />
+      <item itemvalue="Spring Boot.BackendApplication" />
+      <item itemvalue="Spring Boot.CommonModuleApplication (1)" />
+      <item itemvalue="Spring Boot.CommonModuleApplication" />
+      <item itemvalue="Spring Boot.GatewayServiceApplication (1)" />
+      <item itemvalue="Spring Boot.GatewayServiceApplication" />
       <item itemvalue="Spring Boot.LstmAnalysisApplication (1)" />
       <item itemvalue="Spring Boot.LstmAnalysisApplication" />
-      <item itemvalue="Spring Boot.BackendApplication" />
-      <item itemvalue="Spring Boot.CommonModuleApplication" />
-      <item itemvalue="Spring Boot.CommonModuleApplication (1)" />
-      <item itemvalue="Spring Boot.GatewayServiceApplication" />
-      <item itemvalue="Spring Boot.GatewayServiceApplication (1)" />
+      <item itemvalue="Spring Boot.RfAnalysisApplication" />
       <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-      <item itemvalue="Spring Boot.CommunityServiceApplication" />
       <item itemvalue="Spring Boot.AuthServiceApplication" />
+      <item itemvalue="Spring Boot.CommunityServiceApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -470,7 +480,9 @@
       <workItem from="1776679476358" duration="325000" />
       <workItem from="1776679813510" duration="664000" />
       <workItem from="1776743957867" duration="7702000" />
-      <workItem from="1776919549543" duration="8959000" />
+      <workItem from="1776919549543" duration="9005000" />
+      <workItem from="1777514217393" duration="6895000" />
+      <workItem from="1778039299766" duration="7000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -576,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777337858281</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="commit">
+      <option name="closed" value="true" />
+      <created>1777340178658</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1777340178658</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

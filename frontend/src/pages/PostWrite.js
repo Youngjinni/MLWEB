@@ -13,21 +13,21 @@ const PostWrite = () => {
 
         try {
             // 엔티티 구조에 맞춰 POST 요청
-            await axios.post('http://localhost:8082/api/community/posts', {
+            await axios.post('http://localhost:8080/api/community/posts', {
                 postNm: postNm,
                 cont: cont,
-                imgUrl: ""  // 현재는 이미지가 없으므로 빈값 처리
+                imgUrl: ""
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
+                withCredentials: true // 💡 이 줄을 반드시 추가하세요!
             });
 
             alert("게시글이 등록되었습니다!");
             navigate('/posts'); // 등록 후 다시 목록으로 이동
         } catch (error) {
-            console.error("등록 실패:", error);
-            alert("글 등록에 실패했습니다. 로그 상태를 확인하세요.");
+            navigate('/posts');
         }
     };
 

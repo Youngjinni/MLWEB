@@ -1,41 +1,67 @@
-version: '3.8'
-
 services:
-  # 1. 오라클 DB 서비스 (기존 유지)
+  # 1. 오라클 데이터베이스 (가장 먼저 떠야 함)
   oracle-db:
-    image: gvenzl/oracle-xe:latest
-    container_name: ml_oracle_db
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
     ports:
-      - "${ORACLE_DB_PORT}:1521"
+      - "1521:1521"
     environment:
-      - APP_USER=${ORACLE_DB_USER}
-      - APP_USER_PASSWORD=${ORACLE_DB_PASSWORD}
-      - ORACLE_PASSWORD=master_password
+      - ORACLE_PASSWORD=user1
+      # APP_USER를 system으로 하면 권한 문제가 생길 수 있으니
+      # 별도의 서비스용 계정(예: ml_user)을 만드는 걸 추천하지만, 일단 유지합니다.
+      - APP_USER=system
+      - APP_USER_PASSWORD=user1
     volumes:
-      - ./oracle_data:/opt/oracle/oradata
-    networks:
-      - ml-network
-    restart: always
+      - ./oracle-data:/opt/oracle/oradata
 
-  # 2. 스프링 부트 애플리케이션 서비스 (추가)
-  common-module:
-    build:
-      context: .
-      dockerfile: common-module/Dockerfile
-    container_name: ml_common_service
-    depends_on:
-      - oracle-db # DB가 먼저 떠야 함
-    env_file:
-      - .env # 루트의 .env 파일을 환경변수로 주입
-    environment:
-      # ⭐ 중요: 도커 내부에서는 localhost가 아닌 서비스명(oracle-db)으로 접속!
-      - DB_URL=jdbc:oracle:thin:@oracle-db:1521/xe
+  # 2. API 게이트웨이
+  gateway-service:
+    build: ./gateway-service
     ports:
-      - "8081:8080"
-    networks:
-      - ml-network
-    restart: on-failure
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      # 💡 게이트웨이가 다른 서비스들의 도커 이름을 알 수 있게 환경변수 주입 가능
+    depends_on:
+      - oracle-db # DB가 뜨기 시작하면 실행
 
-networks:
-  ml-network:
-    driver: bridge
+  # 3. 개별 서비스들 (이제 gateway가 아니라 oracle-db에 의존해야 함)
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
+
+  community-service:
+    build: ./community-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
+
+  lstm-analysis:
+    build: ./lstm-analysis
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
+
+  rf-analysis:
+    build: ./rf-analysis
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+    depends_on:
+      - oracle-db
