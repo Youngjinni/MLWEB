@@ -14,13 +14,17 @@ java {
     }
 }
 
+bootJar {
+    mainClass = 'com.ml_app.auth-service.AuthServiceApplication'
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     // 1. 공통 모듈 (Entity, Repository 재사용)
-    implementation project(':common-module')
+    implementation project(':backend:common-module')
 
     // 2. 스프링 부트 기본 & 웹
     implementation 'org.springframework.boot:spring-boot-starter-web'

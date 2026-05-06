@@ -14,12 +14,16 @@ java {
     }
 }
 
+bootJar {
+    mainClass = 'com.ml_app.rf-analysis.RfAnalysisApplication'
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(':common-module')
+    implementation project(':backend:common-module')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 

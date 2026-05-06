@@ -1,4 +1,9 @@
 rootProject.name = 'MLWEB'
 
-include ':backend'
 include ':frontend'
+include ':backend:common-module'
+include ':backend:gateway-service'
+include ':backend:auth-service'
+include ':backend:community-service'
+include ':backend:lstm-analysis'
+include ':backend:rf-analysis'

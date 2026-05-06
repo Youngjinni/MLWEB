@@ -14,6 +14,7 @@ java {
     }
 }
 
+
 repositories {
     mavenCentral()
 }
@@ -41,6 +42,8 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
+jar {
+    enabled = true // 일반 jar 파일만 생성하도록 설정
+}
 // 삭제: description (필요시만 작성)
 // 삭제: tasks.register("prepareKotlinBuildScriptModel"){} (인텔리제이 내부 생성용이므로 수동 작성 불필요)

@@ -9,6 +9,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/backend/auth-service" />
+            <option value="$PROJECT_DIR$/backend/common-module" />
+            <option value="$PROJECT_DIR$/backend/community-service" />
+            <option value="$PROJECT_DIR$/backend/gateway-service" />
+            <option value="$PROJECT_DIR$/backend/lstm-analysis" />
+            <option value="$PROJECT_DIR$/backend/rf-analysis" />
             <option value="$PROJECT_DIR$/frontend" />
           </set>
         </option>
@@ -17,6 +23,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$/backend/lstm-analysis" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/backend/auth-service" />
             <option value="$PROJECT_DIR$/backend/common-module" />
@@ -24,6 +31,7 @@
             <option value="$PROJECT_DIR$/backend/gateway-service" />
             <option value="$PROJECT_DIR$/backend/lstm-analysis" />
             <option value="$PROJECT_DIR$/backend/rf-analysis" />
+            <option value="$PROJECT_DIR$/frontend" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -31,6 +39,7 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$/backend/rf-analysis" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/backend/auth-service" />
             <option value="$PROJECT_DIR$/backend/common-module" />
@@ -38,6 +47,7 @@
             <option value="$PROJECT_DIR$/backend/gateway-service" />
             <option value="$PROJECT_DIR$/backend/lstm-analysis" />
             <option value="$PROJECT_DIR$/backend/rf-analysis" />
+            <option value="$PROJECT_DIR$/frontend" />
           </set>
         </option>
       </GradleProjectSettings>

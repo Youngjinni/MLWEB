@@ -28,3 +28,15 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+// 모든 서브 프로젝트 공통 설정
+subprojects {
+    // backend 폴더 자체는 빌드 대상에서 제외 (껍데기니까요!)
+    if (project.name == 'backend') {
+        bootJar { enabled = false }
+        jar { enabled = false }
+    }
+}
+
+// 최상위 루트 프로젝트(MLWEB)도 빌드 제외
+bootJar { enabled = false }
+jar { enabled = false }

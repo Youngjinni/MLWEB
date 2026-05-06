@@ -5,20 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2d74df3-fb17-4e96-9a8f-5c809d3aef5f" name="변경" comment="commit">
-      <change afterPath="$PROJECT_DIR$/backend/auth-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/community-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/gateway-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/java/com/ml_app/gatewayservice/cors/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/lstm-analysis/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/rf-analysis/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/auth-service/backend.auth-service.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/common-module/backend.common-module.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/community-service/backend.community-service.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-service/src/main/java/com/ml_app/authservice/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/common-module/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/common-module/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/community-service/src/main/java/com/ml_app/communityservice/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/PostWrite.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/PostWrite.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/auth-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common-module/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/common-module/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/community-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/community-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/gateway-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gateway-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/lstm-analysis/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/lstm-analysis/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/rf-analysis/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/rf-analysis/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +89,18 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="backend" type="f1a62948:ProjectNode" />
+                <item name="MLWEB" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MLWEB" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MLWEB" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -152,7 +173,11 @@
     "Gradle.backend 빌드.executor": "Run",
     "Gradle.community-service 빌드.executor": "Run",
     "Gradle.lstm-analysis 빌드.executor": "Run",
+    "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:auth-service:bootJar].executor": "Run",
+    "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:build].executor": "Run",
+    "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:jar].executor": "Run",
     "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean].executor": "Run",
+    "Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [bootJar].executor": "Run",
     "JUnit.UserRepositoryTest.UserSave_test.executor": "Run",
     "JUnit.UserRepositoryTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -185,7 +210,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "프로젝트",
+    "project.structure.last.edited": "SDK",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
@@ -212,8 +237,8 @@
       <recent name="C:\Users\kim young jin\IdeaProjects\ML-WEB\MLWEB\backend\common-module" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.GatewayServiceApplication">
-    <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [bootJar]">
+    <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:auth-service:bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
@@ -224,7 +249,82 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":lstm-analysis:clean" />
+            <option value=":auth-service:bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":common-module:build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":common-module:jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--info" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -240,45 +340,6 @@
     </configuration>
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
-    </configuration>
-    <configuration name="AuthServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="auth-service_main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ml_app.authservice.AuthServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ml_app.authservice.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="ms-21" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <module name="backend.auth-service.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ml_app.authservice.AuthServiceApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ml_app.authservice.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <extension name="net.ashald.envfile">
-        <option name="IS_ENABLED" value="true" />
-        <option name="IS_SUBST" value="false" />
-        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
-        <option name="IS_IGNORE_MISSING_FILES" value="false" />
-        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
-        <ENTRIES>
-          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="backend/.env" />
-        </ENTRIES>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="backend.auth-service.main" />
@@ -420,7 +481,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" />
+      <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:auth-service:bootJar]" />
+      <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:build]" />
+      <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:jar]" />
+      <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [bootJar]" />
       <item itemvalue="Spring Boot.BackendApplication" />
       <item itemvalue="Spring Boot.CommonModuleApplication (1)" />
       <item itemvalue="Spring Boot.CommonModuleApplication" />
@@ -429,16 +493,15 @@
       <item itemvalue="Spring Boot.LstmAnalysisApplication (1)" />
       <item itemvalue="Spring Boot.LstmAnalysisApplication" />
       <item itemvalue="Spring Boot.RfAnalysisApplication" />
-      <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
-      <item itemvalue="Spring Boot.AuthServiceApplication" />
       <item itemvalue="Spring Boot.CommunityServiceApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [bootJar]" />
+        <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:build]" />
+        <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:common-module:jar]" />
+        <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:auth-service:bootJar]" />
         <item itemvalue="Spring Boot.CommunityServiceApplication" />
-        <item itemvalue="Spring Boot.AuthServiceApplication" />
-        <item itemvalue="Gradle.lstm-analysis::Users:PC:IdeaProjects:MLWEB:backend [:lstm-analysis:clean]" />
-        <item itemvalue="Spring Boot.AuthServiceApplication (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -596,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777340178658</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="commit">
+      <option name="closed" value="true" />
+      <created>1778041850178</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1778041850178</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

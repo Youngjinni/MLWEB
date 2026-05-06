@@ -14,12 +14,16 @@ java {
     }
 }
 
+bootJar {
+    mainClass = 'com.ml_app.lstm-analysis.LstmAnalysisApplication'
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation project(':common-module')
+    implementation project(':backend:common-module')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // JPA 및 오라클 드라이버 (영진님 프로젝트에 필요한 것들)
