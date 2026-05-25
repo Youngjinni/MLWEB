@@ -1,13 +1,12 @@
 package com.ml_app.rfanalysis.controller;
 
-import lombok.RequiredArgsConstructor;
+import com.ml_app.commonmodule.entity.RfEntity;
+import com.ml_app.commonmodule.util.JwtUtil;
 import com.ml_app.rfanalysis.dto.RfAnalysisRequest;
 import com.ml_app.rfanalysis.service.RfAnalysisService;
-import com.ml_app.commonmodule.entity.RfEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails; // 기본 클래스 활용
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,37 +14,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/analysis")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class RfAnalysisController {
 
     private final RfAnalysisService rfAnalysisService;
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    private JwtUtil jwtUtil() {
+        return new JwtUtil(jwtSecret);
+    }
+
+    /**
+     * 수정: @CrossOrigin 제거, Authentication 파라미터 제거,
+     *       Authorization 헤더에서 userId 직접 추출 후 saveRfResult 호출.
+     *       기존 saveRfResultWithUsername(email 기반)은 Spring Security가 없으면 동작하지 않아
+     *       userId 기반의 saveRfResult로 교체.
+     */
     @PostMapping("/rf")
     public ResponseEntity<String> saveRf(
-            @RequestBody RfAnalysisRequest request,
-            Authentication authentication) { // 💡 PrincipalDetails 대신 이걸로 변경
-
-        if (authentication == null) {
-            return ResponseEntity.status(401).body("인증 정보가 없습니다.");
-        }
-
-        // authentication.getName()은 로그인한 유저의 ID(이메일 등)를 바로 가져옵니다.
-        String username = authentication.getName();
-
-        // 기존 서비스의 username 처리 메서드 호출
-        rfAnalysisService.saveRfResultWithUsername(request, username);
-
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody RfAnalysisRequest request) {
+        Long userId = jwtUtil().getUserIdFromHeader(authHeader);
+        rfAnalysisService.saveRfResult(request, userId);
         return ResponseEntity.ok("Random Forest 분석 결과 저장 성공");
     }
 
-    @GetMapping("/history")
+    @GetMapping("/rf/history")
     public ResponseEntity<List<RfEntity>> getUserHistory(
-            @AuthenticationPrincipal UserDetails userDetails) {
-
-        if (userDetails == null) return ResponseEntity.status(401).build();
-
-        // [기존 활용] username으로 히스토리 조회
-        List<RfEntity> history = rfAnalysisService.getHistoryByUsername(userDetails.getUsername());
+            @RequestHeader("Authorization") String authHeader) {
+        Long userId = jwtUtil().getUserIdFromHeader(authHeader);
+        List<RfEntity> history = rfAnalysisService.getHistoryByUserId(userId);
         return ResponseEntity.ok(history);
     }
 }
