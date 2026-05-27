@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import * as XLSX from 'xlsx';
-import { Activity, Download, FileSpreadsheet, Play, RefreshCw, Settings, UploadCloud, Zap } from 'lucide-react';
+import { Activity, BookOpen, Download, FileSpreadsheet, Play, RefreshCw, Server, Settings, UploadCloud, Zap } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { API } from '../api/auth';
+import { API, tokenStorage } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const CONTROLS = [
   { key: 'windowSize',   label: 'Window Size',  type: 'number', min: 5,      max: 90,   step: 5 },
@@ -10,7 +11,7 @@ const CONTROLS = [
   { key: 'epochs',       label: 'Epochs',        type: 'number', min: 10,     max: 200,  step: 10 },
   { key: 'batchSize',    label: 'Batch Size',    type: 'number', min: 8,      max: 128,  step: 8 },
   { key: 'learningRate', label: 'Learning Rate', type: 'number', min: 0.0001, max: 0.02, step: 0.0001 },
-  { key: 'optimizer',    label: 'Optimizer',     type: 'select', options: ['Adam', 'SGD'] },
+  { key: 'optimizer',    label: 'Optimizer',     type: 'select', options: ['adam', 'sgd'] },
 ];
 
 const SAMPLE_ROWS = [
@@ -18,6 +19,14 @@ const SAMPLE_ROWS = [
   { date: '2026-05-02', open: '72,400', close: '73,100', volume: '2.1M' },
   { date: '2026-05-03', open: '73,000', close: '74,600', volume: '1.5M' },
 ];
+
+const getSubscYn = () => {
+  try {
+    const token = tokenStorage.getAccess();
+    if (!token) return 0;
+    return JSON.parse(atob(token.split('.')[1])).subscYn || 0;
+  } catch { return 0; }
+};
 
 const LstmAnalysis = () => {
   const [fileData, setFileData]       = useState([]);
@@ -27,14 +36,16 @@ const LstmAnalysis = () => {
   const [lossData, setLossData]       = useState([]);
   const [chartData, setChartData]     = useState([]);
   const [fileName, setFileName]       = useState(null);
-  const inputRef = useRef(null);
+  const [useServer, setUseServer]     = useState(false);
+  const inputRef     = useRef(null);
+  const navigate     = useNavigate();
+  const isSubscribed = getSubscYn() === 1;
 
   const [params, setParams] = useState({
     windowSize: 10, neurons: 64, epochs: 50,
-    batchSize: 32, learningRate: 0.001, optimizer: 'Adam',
+    batchSize: 32, learningRate: 0.001, optimizer: 'adam',
   });
-
-  const handleParamChange = (key, value) => setParams((prev) => ({ ...prev, [key]: value }));
+  const handleParamChange = (key, value) => setParams(p => ({ ...p, [key]: value }));
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -45,69 +56,71 @@ const LstmAnalysis = () => {
       const wb = XLSX.read(evt.target.result, { type: 'binary' });
       const ws = wb.Sheets[wb.SheetNames[0]];
       const values = XLSX.utils.sheet_to_json(ws)
-        .map((row) => parseFloat(Object.values(row)[0]))
-        .filter((v) => !isNaN(v));
+        .map(row => parseFloat(Object.values(row)[0])).filter(v => !isNaN(v));
       setFileData(values);
       alert(`${values.length}개의 데이터를 불러왔습니다.`);
     };
     reader.readAsBinaryString(file);
   };
 
-  const runLstm = async () => {
+  const runServerLstm = async () => {
+    setIsAnalyzing(true); setResult(null); setProgress(0); setLossData([]); setChartData([]);
+    try {
+      const res = await API.post('/api/ml/lstm', {
+        data: fileData, window_size: params.windowSize, neurons: params.neurons,
+        epochs: params.epochs, batch_size: params.batchSize,
+        learning_rate: params.learningRate, optimizer: params.optimizer,
+      });
+      const { predictions, actual, loss_history, final_loss } = res.data;
+      setLossData(loss_history.map((loss, i) => ({ epoch: i + 1, loss })));
+      setChartData(actual.map((a, i) => ({ index: i, 실제값: a, 예측값: predictions[i] })).slice(-50));
+      setProgress(100);
+      setResult(`서버 LSTM 분석 완료! (최종 Loss: ${final_loss.toFixed(6)})`);
+      await API.post('/api/analysis/lstm', {
+        ...params, inputDataNm: fileName || 'User_LSTM', resultJson: JSON.stringify({ final_loss }),
+      });
+    } catch (err) {
+      if (err.response?.status === 403) { alert('구독자 전용 기능입니다.'); navigate('/payment'); }
+      else alert('서버 분석 중 오류가 발생했습니다.');
+    } finally { setIsAnalyzing(false); }
+  };
+
+  const runBrowserLstm = async () => {
     const winSize = parseInt(params.windowSize);
     if (fileData.length < winSize) return alert('데이터가 부족합니다.');
-
-    setIsAnalyzing(true);
-    setResult(null);
-    setProgress(0);
-    setLossData([]);
-    setChartData([]);
-
+    setIsAnalyzing(true); setResult(null); setProgress(0); setLossData([]); setChartData([]);
     try {
       const xs = [], ys = [];
       for (let i = 0; i < fileData.length - winSize; i++) {
-        xs.push(fileData.slice(i, i + winSize).map((v) => [v]));
+        xs.push(fileData.slice(i, i + winSize).map(v => [v]));
         ys.push(fileData[i + winSize]);
       }
       const tensorXs = window.tf.tensor3d(xs);
       const tensorYs = window.tf.tensor2d(ys, [ys.length, 1]);
-
       const model = window.tf.sequential();
-      model.add(window.tf.layers.lstm({ units: parseInt(params.neurons), inputShape: [winSize, 1], kernelInitializer: 'glorotUniform' }));
+      model.add(window.tf.layers.lstm({ units: parseInt(params.neurons), inputShape: [winSize, 1] }));
       model.add(window.tf.layers.dense({ units: 1 }));
       model.compile({ optimizer: window.tf.train.adam(parseFloat(params.learningRate)), loss: 'meanSquaredError' });
-
       await model.fit(tensorXs, tensorYs, {
-        epochs: parseInt(params.epochs),
-        batchSize: parseInt(params.batchSize),
-        verbose: 0,
-        callbacks: {
-          onEpochEnd: (epoch, logs) => {
-            const cur = epoch + 1;
-            setProgress(Math.round((cur / params.epochs) * 100));
-            setLossData((prev) => [...prev, { epoch: cur, loss: parseFloat(logs.loss.toFixed(6)) }]);
-          },
-        },
+        epochs: parseInt(params.epochs), batchSize: parseInt(params.batchSize), verbose: 0,
+        callbacks: { onEpochEnd: (epoch, logs) => {
+          const cur = epoch + 1;
+          setProgress(Math.round(cur / params.epochs * 100));
+          setLossData(prev => [...prev, { epoch: cur, loss: parseFloat(logs.loss.toFixed(6)) }]);
+        }},
       });
-
-      const predictions = model.predict(tensorXs).dataSync();
-      setChartData(ys.map((actual, i) => ({ index: i, 실제값: actual, 예측값: predictions[i] })).slice(-50));
-      setResult('LSTM 분석 및 학습 완료!');
-
+      const preds = model.predict(tensorXs).dataSync();
+      setChartData(ys.map((a, i) => ({ index: i, 실제값: a, 예측값: preds[i] })).slice(-50));
+      setResult('브라우저 LSTM 분석 완료!');
       await API.post('/api/analysis/lstm', {
-        ...params,
-        inputDataNm: 'User_LSTM_Analysis',
-        resultJson: JSON.stringify({ status: 'success' }),
+        ...params, inputDataNm: fileName || 'User_LSTM', resultJson: JSON.stringify({ status: 'success' }),
       });
-
       tensorXs.dispose(); tensorYs.dispose(); model.dispose();
-    } catch (err) {
-      console.error(err);
-      alert('에러 발생: ' + err.message);
-    } finally {
-      setIsAnalyzing(false);
-    }
+    } catch (err) { alert('에러: ' + err.message); }
+    finally { setIsAnalyzing(false); }
   };
+
+  const runLstm = () => useServer ? runServerLstm() : runBrowserLstm();
 
   return (
     <div className="page">
@@ -118,6 +131,13 @@ const LstmAnalysis = () => {
             <h1>LSTM 시계열 분석</h1>
           </div>
           <div className="analysis-actions">
+            <div className="segmented">
+              <button className={!useServer ? 'is-active' : ''} type="button" onClick={() => setUseServer(false)}>브라우저</button>
+              <button className={useServer ? 'is-active' : ''} type="button"
+                onClick={() => { if (!isSubscribed) { alert('구독자 전용 기능입니다.'); navigate('/payment'); return; } setUseServer(true); }}>
+                <Server size={13} style={{ marginRight: 4 }} />서버{!isSubscribed && ' 🔒'}
+              </button>
+            </div>
             <button className="secondary-button compact" type="button"><Download size={16} /> 내보내기</button>
             <button className="primary-button compact" type="button" onClick={runLstm} disabled={isAnalyzing || fileData.length === 0}>
               {isAnalyzing ? <RefreshCw className="spin" size={16} /> : <Play size={16} />}
@@ -125,6 +145,12 @@ const LstmAnalysis = () => {
             </button>
           </div>
         </div>
+
+        {useServer && (
+          <div style={{ padding: '10px 16px', background: 'var(--blue-light)', borderRadius: 8, fontSize: '.85rem', color: 'var(--blue)', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Server size={16} /> 서버 자원으로 학습합니다. 브라우저 부하 없이 대용량 데이터도 처리 가능합니다.
+          </div>
+        )}
 
         <div className="analysis-grid">
           <section className="tool-panel">
@@ -136,10 +162,8 @@ const LstmAnalysis = () => {
               <strong>CSV / XLSX 선택</strong>
             </button>
             <div className="data-table">
-              <div className="table-row table-head">
-                <span>Date</span><span>Open</span><span>Close</span><span>Volume</span>
-              </div>
-              {SAMPLE_ROWS.map((row) => (
+              <div className="table-row table-head"><span>Date</span><span>Open</span><span>Close</span><span>Volume</span></div>
+              {SAMPLE_ROWS.map(row => (
                 <div className="table-row" key={row.date}>
                   <span>{row.date}</span><span>{row.open}</span><span>{row.close}</span><span>{row.volume}</span>
                 </div>
@@ -150,22 +174,20 @@ const LstmAnalysis = () => {
           <section className="tool-panel">
             <div className="panel-title"><Settings size={20} /><h2>파라미터</h2></div>
             <div className="control-grid">
-              {CONTROLS.map((ctrl) =>
-                ctrl.type === 'select' ? (
-                  <label key={ctrl.key} className="param-control">
-                    <span>{ctrl.label}</span>
-                    <select value={params[ctrl.key]} onChange={(e) => handleParamChange(ctrl.key, e.target.value)}>
-                      {ctrl.options.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
-                    </select>
-                  </label>
-                ) : (
-                  <label key={ctrl.key} className="param-control">
-                    <span>{ctrl.label}</span>
-                    <input type="number" min={ctrl.min} max={ctrl.max} step={ctrl.step}
-                      value={params[ctrl.key]} onChange={(e) => handleParamChange(ctrl.key, parseFloat(e.target.value))} />
-                  </label>
-                )
-              )}
+              {CONTROLS.map(ctrl => ctrl.type === 'select' ? (
+                <label key={ctrl.key} className="param-control">
+                  <span>{ctrl.label}</span>
+                  <select value={params[ctrl.key]} onChange={e => handleParamChange(ctrl.key, e.target.value)}>
+                    {ctrl.options.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </label>
+              ) : (
+                <label key={ctrl.key} className="param-control">
+                  <span>{ctrl.label}</span>
+                  <input type="number" min={ctrl.min} max={ctrl.max} step={ctrl.step}
+                    value={params[ctrl.key]} onChange={e => handleParamChange(ctrl.key, parseFloat(e.target.value))} />
+                </label>
+              ))}
             </div>
           </section>
 
@@ -177,23 +199,23 @@ const LstmAnalysis = () => {
             </div>
             <div className="progress-track"><span style={{ width: `${progress}%` }} /></div>
             <div className="result-list">
+              <div><span>모드</span><strong>{useServer ? '서버' : '브라우저'}</strong></div>
               <div><span>Window</span><strong>{params.windowSize}일</strong></div>
-              <div><span>Optimizer</span><strong>{params.optimizer}</strong></div>
               <div><span>Epochs</span><strong>{params.epochs}</strong></div>
             </div>
           </section>
         </div>
 
         <button className="run-button" type="button" onClick={runLstm} disabled={isAnalyzing || fileData.length === 0}>
-          {isAnalyzing ? <><RefreshCw className="spin" size={18} /> 모델 학습 중... ({progress}%)</> : <><Play size={18} /> LSTM 분석 실행</>}
+          {isAnalyzing
+            ? <><RefreshCw className="spin" size={18} /> {useServer ? '서버 학습 중' : '모델 학습 중'} ({progress}%)</>
+            : <><Play size={18} /> {useServer ? '서버 LSTM 분석' : 'LSTM 분석 실행'}</>}
         </button>
 
         <div className="chart-grid">
           <section className="tool-panel">
-            <div className="chart-header">
-              <div><h2>Training Loss</h2><span>loss curve</span></div>
-              <span className="status-badge blue"><Activity size={13} /> Live</span>
-            </div>
+            <div className="chart-header"><div><h2>Training Loss</h2><span>loss curve</span></div>
+              <span className="status-badge blue"><Activity size={13} /> Live</span></div>
             <div className="chart-box">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={lossData} margin={{ top: 8, right: 18, bottom: 8, left: 0 }}>
@@ -206,10 +228,8 @@ const LstmAnalysis = () => {
             </div>
           </section>
           <section className="tool-panel">
-            <div className="chart-header">
-              <div><h2>Actual vs Prediction</h2><span>actual / prediction</span></div>
-              <span className="status-badge blue"><Activity size={13} /> Live</span>
-            </div>
+            <div className="chart-header"><div><h2>Actual vs Prediction</h2><span>actual / prediction</span></div>
+              <span className="status-badge blue"><Activity size={13} /> Live</span></div>
             <div className="chart-box">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 8, right: 18, bottom: 8, left: 0 }}>
@@ -226,6 +246,41 @@ const LstmAnalysis = () => {
         </div>
 
         {result && <div className="result-banner success">{result}</div>}
+
+        {/* ── 데이터 가이드 ── */}
+        <div className="data-guide">
+          <p className="data-guide-title"><BookOpen size={18} color="var(--blue)" /> LSTM에 적합한 데이터 가이드</p>
+          <div className="guide-blocks">
+            <div className="guide-block">
+              <h4>✅ 적합한 데이터</h4>
+              <ul>
+                <li><strong>주가 / 코인 가격</strong> — 종가, 시가, 거래량 등</li>
+                <li><strong>기상 데이터</strong> — 일별 기온, 강수량</li>
+                <li><strong>수요 예측</strong> — 전력 소비량, 판매량</li>
+                <li><strong>센서 데이터</strong> — 진동, 압력 등 연속 측정값</li>
+                <li><strong>트래픽</strong> — 시간대별 방문자 수</li>
+              </ul>
+            </div>
+            <div className="guide-block">
+              <h4>⚙️ 데이터 형식</h4>
+              <ul>
+                <li>첫 번째 열의 <strong>숫자 값</strong>만 읽습니다</li>
+                <li>행은 <strong>시간 오름차순</strong>으로 정렬</li>
+                <li>권장 행 수: <strong>100행 이상</strong></li>
+                <li>결측값(NaN)은 <strong>자동 제거</strong></li>
+                <li>파일 형식: <strong>CSV, XLSX</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div className="data-format-box">
+            <span className="comment"># 예시 CSV 형식 (첫 번째 열 값만 사용)</span>{'\n'}
+            date,close{'\n'}
+            <span className="value">2026-01-01,72400{'\n'}
+            2026-01-02,73100{'\n'}
+            2026-01-03,71800</span>
+          </div>
+        </div>
+
       </div>
     </div>
   );

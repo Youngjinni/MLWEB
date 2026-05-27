@@ -13,7 +13,6 @@ services:
       - APP_USER_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./oracle-data:/opt/oracle/oradata
-    # gvenzl 이미지 내장 healthcheck.sh 사용
     healthcheck:
       test: ["CMD", "healthcheck.sh"]
       interval: 20s
@@ -142,6 +141,40 @@ services:
     depends_on:
       oracle-db:
         condition: service_healthy
+    networks:
+      - mlweb-net
+
+  paymentservice:
+    build:
+      context: .
+      dockerfile: backend/paymentservice/Dockerfile
+    container_name: paymentservice
+    ports:
+      - "8086:8086"
+    environment:
+      - PAYMENT_PORT=8086
+      - DB_URL=jdbc:oracle:thin:@oracle-db:1521:XE
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - TOSS_SECRET_KEY=${TOSS_SECRET_KEY}
+      - TOSS_CLIENT_KEY=${TOSS_CLIENT_KEY}
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    networks:
+      - mlweb-net
+
+  # 서버사이드 ML 서비스 (구독자 전용)
+  mlservice:
+    build:
+      context: ./mlservice
+      dockerfile: Dockerfile
+    container_name: mlservice
+    ports:
+      - "8085:8085"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - mlweb-net
 

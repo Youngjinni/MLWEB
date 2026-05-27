@@ -1,13 +1,5 @@
 import axios from 'axios';
 
-/**
- * 로컬 개발: http://localhost:8080 (게이트웨이 직접)
- * Docker(nginx): '' (상대경로 → nginx가 게이트웨이로 프록시)
- *
- * .env 파일로 환경별 분기:
- *   .env.development → REACT_APP_API_URL=http://localhost:8080
- *   .env.production  → REACT_APP_API_URL=   (비워두면 상대경로)
- */
 const BASE_URL = process.env.REACT_APP_API_URL || '';
 
 export const tokenStorage = {
@@ -32,7 +24,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// 응답 interceptor: Access Token 만료 시 자동 재발급
+// 응답 interceptor: 401 또는 500(토큰 만료 메시지) 시 자동 재발급
 let isRefreshing = false;
 let pendingQueue = [];
 
@@ -43,12 +35,24 @@ const processPending = (error, token = null) => {
   pendingQueue = [];
 };
 
+const shouldRefresh = (error) => {
+  const status = error.response?.status;
+  // 401: 표준 미인증
+  // 500 + 만료 메시지: communityservice 등이 JwtUtil 예외를 500으로 내보내는 경우
+  if (status === 401) return true;
+  if (status === 500) {
+    const msg = error.response?.data?.message || JSON.stringify(error.response?.data || '');
+    return msg.includes('만료') || msg.includes('expired') || msg.includes('Access Token');
+  }
+  return false;
+};
+
 API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const original = error.config;
 
-    if (error.response?.status === 401 && !original._retry) {
+    if (shouldRefresh(error) && !original._retry) {
       original._retry = true;
 
       if (isRefreshing) {
@@ -99,11 +103,8 @@ export const login = async (id, pw) => {
 };
 
 export const logout = async () => {
-  try {
-    await API.post('/auth/logout');
-  } finally {
-    tokenStorage.clear();
-  }
+  try { await API.post('/auth/logout'); }
+  finally { tokenStorage.clear(); }
 };
 
 export const getMyInfo = () => API.get('/auth/me');

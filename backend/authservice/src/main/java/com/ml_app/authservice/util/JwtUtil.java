@@ -28,24 +28,27 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    /** Access Token 발급 (짧은 만료, userId + role 포함) */
-    public String createAccessToken(Long userId, String role) {
+    /**
+     * Access Token에 subscYn claim 포함.
+     * mlservice가 DB 조회 없이 구독 여부를 판단할 수 있도록 함.
+     */
+    public String createAccessToken(Long userId, String role, int subscYn) {
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .claim("auth", role)
                 .claim("type", "access")
+                .claim("subscYn", subscYn)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiry))
                 .signWith(getKey())
                 .compact();
     }
 
-    /** Refresh Token 발급 (긴 만료, UUID 기반 - payload 최소화) */
     public String createRefreshToken(Long userId) {
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .claim("type", "refresh")
-                .claim("jti", UUID.randomUUID().toString()) // 토큰마다 고유값 - Rotation 검증용
+                .claim("jti", UUID.randomUUID().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiry))
                 .signWith(getKey())
@@ -57,21 +60,15 @@ public class JwtUtil {
     }
 
     public boolean isExpired(String token) {
-        try {
-            getClaims(token);
-            return false;
-        } catch (ExpiredJwtException e) {
-            return true;
-        }
+        try { getClaims(token); return false; }
+        catch (ExpiredJwtException e) { return true; }
     }
 
     public String getTokenType(String token) {
         return (String) getClaims(token).get("type");
     }
 
-    public long getRefreshTokenExpiry() {
-        return refreshTokenExpiry;
-    }
+    public long getRefreshTokenExpiry() { return refreshTokenExpiry; }
 
     private Claims getClaims(String token) {
         return Jwts.parser()
