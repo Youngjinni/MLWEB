@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ml_app'
+version = '0.0.1-SNAPSHOT'
+description = 'payment-service'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
+jar     { enabled = false }
+bootJar { enabled = true; mainClass = 'com.ml_app.paymentservice.PaymentServiceApplication' }
+
+repositories { mavenCentral() }
+
+dependencies {
+    implementation project(':backend:commonmodule')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'  // SecurityConfig용
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// @Scheduled은 spring-boot-starter-web에 포함된 스케줄러로 충분
+// Quartz 제거 - 불필요한 의존성
+
+tasks.named('test') { useJUnitPlatform() }
+tasks.register("prepareKotlinBuildScriptModel") {}
