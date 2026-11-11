@@ -98,13 +98,6 @@ docker compose up --build -d
 
 Oracle XE가 초기 기동에 시간이 좀 걸립니다 (2~3분 정도). `docker compose ps`로 전체 컨테이너 Up 상태 확인하면 됩니다.
 
-## 아직 안 한 것들
-
-- [ ] HTTPS 적용
-- [ ] PK SEQUENCE로 교체
-- [ ] Rate Limiting (로그인 brute force 방어 X)
-- [ ] LSTM/RF 입력을 다변수로 확장 (지금은 종가 한 열만 받음)
-- [ ] 커뮤니티에서 좋아요가 중복으로 눌리는 현상 제거
 ## 회고
 
 MSA로 쪼개놓고 보니 서비스 간 JWT 검증 로직이 중복되는 게 마음에 좀 걸렸습니다. commonmodule로 공유는 했지만, 다음엔 인증을 Gateway 레벨에서 한 번에 처리하는 구조도 고민해볼 것 같습니다.
